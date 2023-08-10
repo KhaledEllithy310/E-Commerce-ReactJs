@@ -1,20 +1,29 @@
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
     <div>
-      <Navbar bg='dark' data-bs-theme='dark'>
+      <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-        <Navbar.Brand href='#home'>Eraasoft</Navbar.Brand>
-          <Nav className='ml-auto'>
-            <Nav.Link href='#home'>Home</Nav.Link>
-            <Nav.Link href='#features'>Shop</Nav.Link>
-            <Nav.Link href='#pricing'>Cart</Nav.Link>
+          <Navbar.Brand href="#home">Eraasoft</Navbar.Brand>
+          <Nav className="ml-auto">
+            <NavLink className="nav-link" to="/">
+              Home
+            </NavLink>
+            <NavLink className="nav-link" to="/products">
+              products
+            </NavLink>
+            <NavLink className="nav-link" to="/register">
+              Sign Up
+            </NavLink>
+            {/* <NavLink to="">Shop</NavLink> */}
+            {/* <NavLink to="">Cart</NavLink> */}
           </Nav>
         </Container>
       </Navbar>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

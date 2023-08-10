@@ -1,0 +1,23 @@
+.price_product {
+  font-size: 30px;
+  background-color: black;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+.description_product {
+  font-size: 16px;
+  color: #adabab;
+  font-style: italic;
+}
+
+.left__side {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.479);
+  width: 350px;
+  height: 500px;
+  padding: 20px;
+}

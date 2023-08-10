@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
 
-import "./ProductCard.css";
-import { NavLink } from "react-router-dom";
-const ProductCard = (props) => {
-  let { product } = props;
+import "./ProductItem.css";
+const ProductItem = (props) => {
+  let { user } = props;
   return (
     <tr>
-      <td>{product.id}</td>
-      <td>{product.title.slice(0, 30)}</td>
-      <td>${product.price}</td>
+      <td>{user.id}</td>
+      <td>{user.name}</td>
+      <td>{user.email}</td>
       <td className="text-center">
         <button className="btn btn-primary m-2">
           <i className="bi bi-pencil-square"></i>
@@ -16,15 +15,12 @@ const ProductCard = (props) => {
         <button className="btn btn-danger m-2">
           <i className="bi bi-trash"></i>
         </button>
-        <NavLink
-          className="btn btn-warning m-2"
-          to={`/products/ ${product.id}`}
-        >
+        <button className="btn btn-warning m-2">
           <i className="bi bi-eye-fill"></i>
-        </NavLink>
+        </button>
       </td>
     </tr>
   );
 };
 
-export default ProductCard;
+export default ProductItem;

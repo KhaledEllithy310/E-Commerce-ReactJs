@@ -1,42 +1,51 @@
-import { useEffect, useState } from "react"
 
-import { Container,Row } from 'react-bootstrap'
-// import { products } from '../../models/BookList'
-import ProductCard from './ProductCard/ProductCard'
- const ProductList = () => {
+import { Container, Table } from "react-bootstrap";
+import ProductCard from "./ProductCard/ProductCard";
+import { useNavigate } from "react-router-dom";
+import { useFetch } from "../../CustomHook/useFetch/useFetch";
 
-  const [products, setProducts] = useState([])
+const ProductList = () => {
+  const url = "https://fakestoreapi.com/products";
+  const navigate = useNavigate();
 
-  const fetchProduct = () => {
-    fetch("https://fakestoreapi.com/products")
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        setProducts(data)
-      })
-    }
+  function redirectAddProduct() {
+    navigate("/products/add");
+  }
+  
+  const [isError, isLoading, products] = useFetch(url);
 
-    useEffect(() => {
-      fetchProduct()
-    }, [])
-
+  if (isError) {
+    return <h1>Error</h1>;
+  }
+  
   return (
     <div>
-      <Container className='mt-5'>
-        <h3>Latest Products</h3>
-        <Row>
-        {products.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-
-{/* {products.map(product => {
-  return <ProductCard key={product.id} product={product} />;
-})} */}
-        </Row>
+      <Container className="mt-5 ">
+        <button className="btn btn-primary my-3 " onClick={redirectAddProduct}>
+          Add Product
+        </button>
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <Table striped bordered hover variant="dark" className="text-center">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default ProductList
+export default ProductList;
