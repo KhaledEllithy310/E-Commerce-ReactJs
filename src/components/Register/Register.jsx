@@ -4,16 +4,46 @@ import { Col, Container, Row } from "react-bootstrap";
 const Register = () => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
-  const [error, setError] = useState(null);
+  const [error, setError] = useState({});
+  const [message, setMessage] = useState({});
 
   //Handler Input Values
   const HandlerInput = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
-    if (name === "userName" && value.length < 3) {
-      setError(true);
+    if (name === "userName" && value.length < 3 && value.length != 0) {
+      let errorName = "Username must have at least 3 characters";
+      setMessage({ ...message, errorName });
+      setError({ ...error, name: true });
+    } else if (name === "userName" && value.length == 0) {
+      let errorName = "Username is Required";
+      setMessage({ ...message, errorName });
+      setError({ ...error, name: true });
+    } else if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        let errorEmail = "Invalid email address";
+        setMessage({ ...message, errorEmail });
+
+        setError({ ...error, email: true });
+      } else {
+        setError({});
+      }
+    } else if (name === "password") {
+      const uppercaseRegex = /[A-Z]/g;
+      if (
+        value.length < 10 ||
+        !uppercaseRegex.test(value) ||
+        value.match(uppercaseRegex).length < 3
+      ) {
+        let errorPassword =
+          "Invalid Password. Password must be at least 10 characters long and contain at least 3 uppercase letters.";
+        setMessage({ ...message, errorPassword });
+        setError({ ...error, password: true });
+      } else {
+        setError({});
+      }
     } else {
-      setError(false);
+      setError({});
     }
     setUser({
       ...user,
@@ -24,7 +54,8 @@ const Register = () => {
   //Handler Submit form
   const HandlerSubmit = (e) => {
     e.preventDefault();
-    if (!error) {
+    console.log(error);
+    if (Object.keys(error).length === 0) {
       setUsers([...users, user]);
       setUser({});
     }
@@ -35,7 +66,7 @@ const Register = () => {
     console.log("user", user);
     console.log("users", users);
     console.log("error", error);
-  }, [users]);
+  }, [error, user, users]);
   return (
     <Container>
       <Row>
@@ -51,16 +82,16 @@ const Register = () => {
                 onChange={HandlerInput}
                 value={user.userName || ""}
               />
-              {error && (
+              {error.name && (
                 <p className="alert alert-danger p-1 my-2">
-                  Username must have at least 3 characters
+                  {message.errorName}
                 </p>
               )}
-              {!error && (
+              {/* {error &&  (
                 <p className="alert alert-success p-1 my-2">
                   Username is valid
                 </p>
-              )}
+              )} */}
               {/* {user.userName && error ? (
                 <p className="alert alert-danger p-1 my-2">Error</p>
               ) : (
@@ -77,6 +108,11 @@ const Register = () => {
                 onChange={HandlerInput}
                 value={user.email || ""}
               />
+              {error.email && (
+                <p className="alert alert-danger p-1 my-2">
+                  {message.errorEmail}
+                </p>
+              )}
             </div>
             <div className="form-group form__container">
               <label htmlFor="">Password</label>
@@ -87,6 +123,11 @@ const Register = () => {
                 onChange={HandlerInput}
                 value={user.password || ""}
               />
+              {error.password && (
+                <p className="alert alert-danger p-1 my-2">
+                  {message.errorPassword}
+                </p>
+              )}
             </div>
             <button className="btn btn-dark" type="submit">
               Register
