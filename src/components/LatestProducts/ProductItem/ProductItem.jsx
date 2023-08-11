@@ -1,25 +1,20 @@
 /* eslint-disable react/prop-types */
 
+import { Button, Card, Col } from "react-bootstrap";
 import "./ProductItem.css";
 const ProductItem = (props) => {
-  let { user } = props;
+  let { product } = props;
   return (
-    <tr>
-      <td>{user.id}</td>
-      <td>{user.name}</td>
-      <td>{user.email}</td>
-      <td className="text-center">
-        <button className="btn btn-primary m-2">
-          <i className="bi bi-pencil-square"></i>
-        </button>
-        <button className="btn btn-danger m-2">
-          <i className="bi bi-trash"></i>
-        </button>
-        <button className="btn btn-warning m-2">
-          <i className="bi bi-eye-fill"></i>
-        </button>
-      </td>
-    </tr>
+    <Col lg={3} md={4} sm={6} className="my-3">
+      <Card>
+        <Card.Img variant="top" src={product.image} />
+        <Card.Body>
+          <Card.Title>{product.title.slice(0, 20)}</Card.Title>
+          <Card.Text>${product.price}</Card.Text>
+          <Button variant="dark">Add To Cart</Button>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 };
 

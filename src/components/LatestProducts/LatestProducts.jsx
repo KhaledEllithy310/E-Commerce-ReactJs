@@ -1,42 +1,27 @@
-import { useEffect, useState } from "react";
-
-import { Container, Table } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import ProductCard from "./ProductItem/ProductItem";
+import { useFetch } from "./../../CustomHook/useFetch/useFetch";
+
 const LatestProducts = () => {
-  const [users, setUsers] = useState([]);
+  const url = "https://fakestoreapi.com/products";
+  const [isError, isLoading, products] = useFetch(url);
 
-  useEffect(() => {
-    const fetchProduct = () => {
-      fetch("https://jsonplaceholder.typicode.com/users")
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setUsers(data);
-        });
-    };
-
-    fetchProduct();
-  }, []);
+  if (isError) {
+    return <h1>Error</h1>;
+  }
 
   return (
     <div>
       <Container className="mt-5 text-center">
-      <Table striped bordered hover variant="dark">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th> Name</th>
-          <th>email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-          {users.map((user) => (
-            <ProductCard key={user.id} user={user} />
-          ))}
-                </tbody>
-    </Table>
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <Row>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Row>
+        )}
       </Container>
     </div>
   );
